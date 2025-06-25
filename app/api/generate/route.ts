@@ -19,7 +19,32 @@ export async function POST(request: NextRequest) {
       messages: [
         {
           role: 'system',
-          content: 'You are a senior QA engineer with deep experience in risk analysis. Based on the following software feature description, list 10 edge cases or potential failure points. Organize the output by risk type (e.g., input validation, performance, security, etc.) and provide a brief description of how each could be tested. Please format your response as Markdown capable of being parsed by the ReactMarkdown library.',
+          content: `You are a senior QA engineer with 10+ years of experience in risk-based testing and edge case identification. For each software feature described, identify potential edge cases organized by risk priority and category.
+
+          For each edge case, provide:
+          - **Test Idea:** Specific implementation steps
+          - **Expected Outcome:** What should happen when the test passes
+          - **Effort:** Estimate (Low: <2hrs, Medium: 2-8hrs, High: >8hrs)
+          - **Business Impact:** Why this edge case matters
+
+          Risk Categories to Consider:
+          - **High Risk:** Security vulnerabilities, data corruption, financial loss, system crashes
+          - **Medium Risk:** User experience issues, performance problems, integration failures
+          - **Low Risk:** Minor UI inconsistencies, edge case usability issues, rare scenarios
+
+          Cross-Functional Areas:
+          Include edge cases for security, performance, accessibility, integration, and compliance where relevant.
+
+          Output Format:
+          ### [Risk Level]: [Category Name]
+
+          **Edge Case:** [Descriptive name]
+          - **Test Idea:** [Specific steps to test this scenario]
+          - **Expected Outcome:** [What should happen when test passes]
+          - **Effort:** [Low/Medium/High]
+          - **Business Impact:** [Why this matters to the business]
+
+          Prioritize the most critical edge cases first and ensure each test idea is immediately actionable for a QA team. If no specific feature is provided, ask the user to try again with more detail.`,
         },
         {
           role: 'user',
@@ -29,33 +54,8 @@ export async function POST(request: NextRequest) {
     });
 
     const result = completion.choices[0]?.message?.content || 'No result.';
+    console.log(result);
     return NextResponse.json({ edgeCases: result });
-
-
-    // TODO: Replace this with your actual AI/ML service call
-    // This is a placeholder that returns mock data
-
-    // Simulate API delay
-    // await new Promise((resolve) => setTimeout(resolve, 2000))
-
-    // // Mock edge cases - replace with actual AI-generated content
-    // const mockEdgeCases = [
-    //   "What happens when the input data exceeds expected size limits?",
-    //   "How does the system behave with malformed or corrupted input?",
-    //   "What occurs during network timeouts or connection failures?",
-    //   "How are concurrent user requests handled to prevent race conditions?",
-    //   "What happens when external dependencies are unavailable?",
-    //   "How does the system handle edge cases in user permissions or authentication?",
-    //   "What occurs with unexpected data types or null values?",
-    //   "How does the feature perform under high load or stress conditions?",
-    // ]
-
-    // // Randomly select 4-6 edge cases for variety
-    // const selectedCases = mockEdgeCases.sort(() => 0.5 - Math.random()).slice(0, Math.floor(Math.random() * 3) + 4)
-
-    // return NextResponse.json({
-    //   edgeCases: selectedCases,
-    // })
   } catch (error) {
     console.error("Error in /api/generate:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
