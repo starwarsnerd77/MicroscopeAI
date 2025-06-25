@@ -1,148 +1,246 @@
-"use client"
+import Link from "next/link"
+import { ArrowRight, Search, Shield, Zap, CheckCircle, Code, Bug, AlertTriangle } from "lucide-react"
 
-import type React from "react"
-
-import { useState } from "react"
-import { Loader2 } from "lucide-react"
-
-export default function RiskLensPage() {
-  const [input, setInput] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [results, setResults] = useState<string[]>([])
-  const [error, setError] = useState("")
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (input.trim().length === 0) {
-      setError("Please enter a feature description")
-      return
-    }
-
-    setLoading(true)
-    setError("")
-    setResults([])
-
-    try {
-      // API call placeholder - replace with your actual endpoint
-      const response = await fetch("/api/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          description: input.trim(),
-        }),
-      })
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      const data = await response.json()
-
-      // Assuming the API returns { edgeCases: string[] }
-      // Adjust this based on your actual API response structure
-      setResults(data.edgeCases || [])
-    } catch (err) {
-      console.error("Error generating edge cases:", err)
-      setError("Failed to generate edge cases. Please try again.")
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const isInputValid = input.trim().length > 0 && input.length <= 1000
-
+export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
-        {/* Hero Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl md:text-6xl">Microscope AI</h1>
-          <p className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">
-            Find hidden risks in your code before they break things.
-          </p>
+    <div className="min-h-screen bg-slate-50">
+      {/* Navigation */}
+      <nav className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <h1 className="text-xl font-bold bg-gradient-to-r from-teal-600 via-cyan-600 to-blue-600 bg-clip-text text-transparent">
+                Microscope AI
+              </h1>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Link
+                href="/analyze"
+                className="bg-teal-600 text-white px-4 py-2 rounded-md font-medium hover:bg-teal-700 transition-colors"
+              >
+                Try Now
+              </Link>
+            </div>
+          </div>
         </div>
+      </nav>
 
-        {/* Input Form */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Hero Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-teal-600 via-cyan-600 to-blue-600 bg-clip-text text-transparent mb-6">
+            Microscope AI
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            Examine your code under the microscope to discover hidden risks and edge cases before they break your
+            application.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/analyze"
+              className="bg-teal-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-teal-700 transition-colors flex items-center justify-center"
+            >
+              Start Analyzing Code
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+            {/* <button className="border border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-50 transition-colors">
+              Watch Demo
+            </button> */}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Precision Analysis for Better Code</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Our AI-powered microscope examines every aspect of your code to identify potential risks and edge cases.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center p-6">
+              <div className="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Search className="h-8 w-8 text-teal-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Deep Code Analysis</h3>
+              <p className="text-gray-600">
+                Advanced AI algorithms examine your code structure, logic flows, and potential failure points with
+                scientific precision.
+              </p>
+            </div>
+
+            <div className="text-center p-6">
+              <div className="bg-cyan-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Shield className="h-8 w-8 text-cyan-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Risk Detection</h3>
+              <p className="text-gray-600">
+                Identify security vulnerabilities, performance bottlenecks, and edge cases that could cause system
+                failures.
+              </p>
+            </div>
+
+            <div className="text-center p-6">
+              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Zap className="h-8 w-8 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Instant Results</h3>
+              <p className="text-gray-600">
+                Get comprehensive analysis results in seconds, formatted in clear, actionable recommendations.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How Microscope AI Works</h2>
+            <p className="text-xl text-gray-600">Three simple steps to comprehensive code analysis</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+                1
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Describe Your Feature</h3>
+              <p className="text-gray-600">
+                Simply describe the software feature or functionality you want to analyze in plain English.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="bg-cyan-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+                2
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">AI Analysis</h3>
+              <p className="text-gray-600">
+                Our advanced AI examines your description and generates comprehensive risk scenarios and edge cases.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+                3
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Get Results</h3>
+              <p className="text-gray-600">
+                Receive detailed, actionable insights about potential risks, edge cases, and recommendations.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <label htmlFor="feature-description" className="block text-sm font-medium text-gray-700 mb-2">
-                Describe your software feature
-              </label>
-              <textarea
-                id="feature-description"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Enter a detailed description of your software feature or functionality..."
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-colors"
-                rows={4}
-                maxLength={1000}
-                required
-              />
-              <div className="flex justify-between items-center mt-2">
-                <p className="text-sm text-gray-500">Minimum 3 lines recommended for better results</p>
-                <p className="text-sm text-gray-500">{input.length}/1000</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Prevent Issues Before They Happen</h2>
+              <p className="text-xl text-gray-600 mb-8">
+                Microscope AI helps development teams identify and address potential problems early in the development
+                cycle, saving time and preventing costly production issues.
+              </p>
+
+              <div className="space-y-4">
+                <div className="flex items-start">
+                  <CheckCircle className="h-6 w-6 text-teal-600 mt-1 mr-3 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900">Reduce Production Bugs</h3>
+                    <p className="text-gray-600">
+                      Catch edge cases and potential failures before they reach production.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <CheckCircle className="h-6 w-6 text-teal-600 mt-1 mr-3 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900">Improve Code Quality</h3>
+                    <p className="text-gray-600">
+                      Get insights into potential security vulnerabilities and performance issues.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <CheckCircle className="h-6 w-6 text-teal-600 mt-1 mr-3 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900">Save Development Time</h3>
+                    <p className="text-gray-600">
+                      Identify issues early to avoid costly debugging and refactoring later.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {error && (
-              <div className="text-red-600 text-sm bg-red-50 border border-red-200 rounded-md p-3">{error}</div>
-            )}
-
-            <button
-              type="submit"
-              disabled={loading || !isInputValid}
-              className="w-full bg-blue-600 text-white py-3 px-4 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="animate-spin -ml-1 mr-3 h-5 w-5" />
-                  Generating Edge Cases...
-                </>
-              ) : (
-                "Generate Edge Cases"
-              )}
-            </button>
-          </form>
-        </div>
-
-        {/* Results Section */}
-        {results.length > 0 && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Potential Edge Cases & Risks</h2>
-            <ul className="space-y-3">
-              {results.map((edgeCase, index) => (
-                <li key={index} className="flex items-start">
-                  <div className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></div>
-                  <p className="text-gray-700 leading-relaxed">{edgeCase}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {/* Empty State */}
-        {!loading && results.length === 0 && !error && (
-          <div className="text-center py-12">
-            <div className="text-gray-400 mb-4">
-              <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1}
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
+            <div className="bg-slate-100 rounded-lg p-8">
+              <div className="space-y-4">
+                <div className="flex items-center text-red-600">
+                  <Bug className="h-5 w-5 mr-2" />
+                  <span className="font-medium">Potential SQL Injection Risk</span>
+                </div>
+                <div className="flex items-center text-yellow-600">
+                  <AlertTriangle className="h-5 w-5 mr-2" />
+                  <span className="font-medium">Memory Leak in Loop Structure</span>
+                </div>
+                <div className="flex items-center text-blue-600">
+                  <Code className="h-5 w-5 mr-2" />
+                  <span className="font-medium">Race Condition in Async Operations</span>
+                </div>
+                <div className="text-sm text-gray-600 mt-4">
+                  Example of issues Microscope AI can detect in your code descriptions.
+                </div>
+              </div>
             </div>
-            <p className="text-gray-500">
-              Enter a feature description above to generate potential edge cases and risks.
-            </p>
           </div>
-        )}
-      </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-teal-600 via-cyan-600 to-blue-600">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Examine Your Code?</h2>
+          <p className="text-xl text-teal-100 mb-8 max-w-2xl mx-auto">
+            Join our community of developers who use Microscope AI to build more reliable, secure applications.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/analyze"
+              className="bg-white text-teal-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-50 transition-colors flex items-center justify-center"
+            >
+              Start Free Analysis
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+            {/* <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-teal-600 transition-colors">
+              Learn More
+            </button> */}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center">
+            <h3 className="text-2xl font-bold bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent mb-4">
+              Microscope AI
+            </h3>
+            <p className="text-gray-400 mb-8">Precision code analysis powered by artificial intelligence.</p>
+            <div className="border-t border-gray-800 pt-8">
+              <p className="text-gray-500">© 2025 Microscope AI. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
