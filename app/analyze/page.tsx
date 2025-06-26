@@ -27,6 +27,17 @@ export default function RiskLensPage() {
     setResults("")
 
     try {
+      const countResponse = await fetch("/api/sendPrompt", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!countResponse.ok) {
+        throw new Error(`HTTP error! status: ${countResponse.status}`)
+      }
+
       const response = await fetch("/api/generate", {
         method: "POST",
         headers: {
@@ -41,16 +52,6 @@ export default function RiskLensPage() {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
 
-      const countResponse = await fetch("/api/sendPrompt", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-
-      if (!countResponse.ok) {
-        throw new Error(`HTTP error! status: ${countResponse.status}`)
-      }
 
       const data = await response.json()
 
