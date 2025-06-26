@@ -228,7 +228,7 @@ export default function LandingPage() {
           </div>
 
           {/* Feedback CTA */}
-          <div className="mt-12 text-center">
+          {/* <div className="mt-12 text-center">
             <div className="bg-gradient-to-r from-teal-50 to-cyan-50 border border-teal-200 rounded-lg p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Want to discuss your feedback directly?</h3>
               <p className="text-gray-600 mb-4">
@@ -239,7 +239,7 @@ export default function LandingPage() {
                 Schedule a Call
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
 
