@@ -35,7 +35,7 @@ export default function RiskLensPage() {
       })
 
       if (!countResponse.ok) {
-        throw new Error(`HTTP error! status: ${countResponse.status}`)
+        throw new Error(`HTTP error! status: ${countResponse.status} message: ${countResponse.statusText}`)
       }
 
       const response = await fetch("/api/generate", {
@@ -51,7 +51,6 @@ export default function RiskLensPage() {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
-
 
       const data = await response.json()
 
