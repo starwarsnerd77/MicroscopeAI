@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useEffect, useState } from "react"
-import { ArrowLeft, Loader2 } from "lucide-react"
+import { ArrowLeft, Loader2, MessageSquare } from "lucide-react"
 import ReactMarkdown from 'react-markdown';
 import Link from "next/link";
 
@@ -107,7 +107,16 @@ export default function RiskLensPage() {
                 Microscope AI
               </h1>
           </div>
+          <div className="flex items-center space-x-4">
+            <Link
+              href="/#feedback"
+              className="flex items-center text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+            >
+              <MessageSquare className="h-4 w-4 mr-1" />
+              Feedback
+            </Link>
           </div>
+        </div>
       </div>
       </nav>
       <div className="py-12 px-4 sm:px-6 lg:px-8">
@@ -236,6 +245,31 @@ export default function RiskLensPage() {
                 }}
                 >{results}</ReactMarkdown>
             </div>
+            )}
+
+            {/* Feedback CTA after results */}
+            {results && (
+              <div className="bg-gradient-to-r from-teal-50 to-cyan-50 border border-teal-200 rounded-lg p-6 my-8">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <MessageSquare className="h-6 w-6 text-teal-600 mt-1" />
+                  </div>
+                  <div className="ml-3">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">How did we do?</h3>
+                    <p className="text-gray-600 mb-4">
+                      Your feedback helps us improve our analysis accuracy. Let us know how useful these results were!
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <Link
+                        href="/#feedback"
+                        className="bg-teal-600 text-white px-4 py-2 rounded-md font-medium hover:bg-teal-700 transition-colors text-center"
+                      >
+                        Share Feedback
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
             )}
 
             {/* Empty State */}

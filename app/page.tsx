@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { ArrowRight, Search, Shield, Zap, CheckCircle, Code, Bug, AlertTriangle } from "lucide-react"
+import FeedbackForm from "./components/feedback-form"
 
 export default function LandingPage() {
   return (
@@ -14,6 +15,12 @@ export default function LandingPage() {
               </h1>
             </div>
             <div className="flex items-center space-x-4">
+            <Link
+                href="#feedback"
+                className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+              >
+                Feedback
+              </Link>
               <Link
                 href="/analyze"
                 className="bg-teal-600 text-white px-4 py-2 rounded-md font-medium hover:bg-teal-700 transition-colors"
@@ -200,6 +207,37 @@ export default function LandingPage() {
                   Example of issues Microscope AI can detect in your code descriptions.
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Feedback Section */}
+      <section id="feedback" className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Help Us Improve Microscope AI</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Your feedback is invaluable in making our code analysis more accurate and useful. Share your experience
+              and help us build better tools.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+            <FeedbackForm />
+          </div>
+
+          {/* Feedback CTA */}
+          <div className="mt-12 text-center">
+            <div className="bg-gradient-to-r from-teal-50 to-cyan-50 border border-teal-200 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Want to discuss your feedback directly?</h3>
+              <p className="text-gray-600 mb-4">
+                Schedule a 15-minute call with our team to share detailed feedback and help shape the future of
+                Microscope AI.
+              </p>
+              <button className="bg-teal-600 text-white px-6 py-2 rounded-md font-medium hover:bg-teal-700 transition-colors">
+                Schedule a Call
+              </button>
             </div>
           </div>
         </div>
