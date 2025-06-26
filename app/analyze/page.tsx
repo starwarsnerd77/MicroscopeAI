@@ -27,7 +27,6 @@ export default function RiskLensPage() {
     setResults("")
 
     try {
-      // API call placeholder - replace with your actual endpoint
       const response = await fetch("/api/generate", {
         method: "POST",
         headers: {
@@ -42,9 +41,20 @@ export default function RiskLensPage() {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
 
+      const countResponse = await fetch("/api/sendPrompt", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!countResponse.ok) {
+        throw new Error(`HTTP error! status: ${countResponse.status}`)
+      }
+
       const data = await response.json()
 
-      // Assuming the API returns { edgeCases: string[] }
+      // Assuming the API returns { edgeCases: string }
       // Adjust this based on your actual API response structure
       setResults(data.edgeCases || "")
     } catch (err) {

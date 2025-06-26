@@ -54,7 +54,6 @@ export async function POST(request: NextRequest) {
     });
 
     const result = completion.choices[0]?.message?.content || 'No result.';
-    console.log(result);
     return NextResponse.json({ edgeCases: result });
   } catch (error) {
     console.error("Error in /api/generate:", error)
