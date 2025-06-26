@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ArrowLeft, Loader2 } from "lucide-react"
 import ReactMarkdown from 'react-markdown';
 import Link from "next/link";
@@ -13,6 +13,31 @@ export default function RiskLensPage() {
   const [loading, setLoading] = useState(false)
   const [results, setResults] = useState<string>("")
   const [error, setError] = useState("")
+  const [remainingPrompts, setRemainingPrompts] = useState(5)
+
+  const handleGetCount = async () => {
+    try {
+      const response = await fetch("/api/getCount", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      setRemainingPrompts(5 - data.count)
+    } catch (err) {
+      console.error("Error fetching count:", err)
+    }
+  }
+
+  useEffect(() => {
+    handleGetCount()
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -54,9 +79,9 @@ export default function RiskLensPage() {
 
       const data = await response.json()
 
-      // Assuming the API returns { edgeCases: string }
-      // Adjust this based on your actual API response structure
       setResults(data.edgeCases || "")
+
+      handleGetCount()
     } catch (err) {
       console.error("Error generating edge cases:", err)
       setError("Failed to generate edge cases. Please try again.")
@@ -104,6 +129,32 @@ export default function RiskLensPage() {
                 <label htmlFor="feature-description" className="block text-sm font-medium text-gray-700 mb-2">
                     Describe your software feature
                 </label>
+                {/* Prompts Counter */}
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2">
+                      <div
+                        className={`w-3 h-3 rounded-full ${remainingPrompts > 2 ? "bg-teal-500" : remainingPrompts > 0 ? "bg-yellow-500" : "bg-red-500"}`}
+                      ></div>
+                      <span className="text-sm font-medium text-gray-700">
+                        {remainingPrompts} {remainingPrompts === 1 ? "analysis" : "analyses"} remaining
+                      </span>
+                    </div>
+                    {remainingPrompts === 0 && (
+                      <span className="text-xs text-red-600 bg-red-50 px-2 py-1 rounded-full">Limit reached</span>
+                    )}
+                  </div>
+                  <div className="flex space-x-1">
+                    {[...Array(5)].map((_, i) => (
+                      <div
+                        key={i}
+                        className={`w-2 h-2 rounded-full ${
+                          i < remainingPrompts ? "bg-gradient-to-r from-teal-500 to-cyan-500" : "bg-gray-200"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
                 <textarea
                     id="feature-description"
                     value={input}
@@ -126,7 +177,7 @@ export default function RiskLensPage() {
 
                 <button
                 type="submit"
-                disabled={loading || !isInputValid}
+                disabled={loading || !isInputValid || remainingPrompts === 0}
                 className="w-full bg-teal-600 text-white py-3 px-4 rounded-md font-medium hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center"
                 >
                 {loading ? (
