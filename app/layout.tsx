@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { Analytics } from '@/components/analytics' // We'll create this below
 
 export const metadata: Metadata = {
   title: 'Microscope AI',

@@ -82,6 +82,11 @@ export default function RiskLensPage() {
       setResults(data.edgeCases || "")
 
       handleGetCount()
+
+      if (typeof window !== 'undefined' && (window as any).plausible) {
+        (window as any).plausible('PromptSubmitted')
+      }
+      
     } catch (err) {
       console.error("Error generating edge cases:", err)
       setError("Failed to generate edge cases. Please try again.")
