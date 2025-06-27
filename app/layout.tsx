@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { Analytics } from '@/components/analytics' // We'll create this below
+import { Analytics } from './components/analytics'
 
 export const metadata: Metadata = {
   title: 'Microscope AI',
@@ -16,6 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>{children}</body>
+      <Analytics />
     </html>
   )
 }
