@@ -7,7 +7,7 @@ export function Analytics() {
     <Script
       async
       defer
-      data-domain="risklens.app" // replace with your domain
+      data-domain="themicroscope.ai" // replace with your domain
       src="https://plausible.io/js/script.js"
     />
   )
